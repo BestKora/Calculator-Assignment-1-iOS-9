@@ -85,7 +85,7 @@ class ViewController: UIViewController
     }
 
     
-    @nonobjc  func performOperation (operation: (Double, Double) -> Double ){
+    @nonobjc func performOperation (operation: (Double, Double) -> Double ){
         if operandStack.count >= 2 {
             displayValue = operation (operandStack.removeLast() , operandStack.removeLast())
             enter()
