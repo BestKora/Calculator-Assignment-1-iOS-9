@@ -70,7 +70,7 @@ class ViewController: UIViewController
          }
     }
     
-     @nonobjc func performOperation (operation: () -> Double ){
+    @nonobjc func performOperation (operation: () -> Double ){
         displayValue = operation ()
         enter()
     }
