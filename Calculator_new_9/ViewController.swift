@@ -65,6 +65,7 @@ class ViewController: UIViewController
             case "π": performOperation   { M_PI }
             case "±": performOperation   { -$0 }
             default: break
+                
             }
          }
     }
