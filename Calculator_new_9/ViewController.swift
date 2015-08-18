@@ -107,7 +107,7 @@ class ViewController: UIViewController
         }else {
             displayValue = nil
         }
-       print("operandStack = \(operandStack)")
+       print("operandStack = \(operandStack)", appendNewline: false)
      }
     
     @IBAction func clearAll(sender: AnyObject) {

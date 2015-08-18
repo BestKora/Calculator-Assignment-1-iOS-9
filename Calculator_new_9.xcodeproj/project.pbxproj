@@ -187,6 +187,7 @@
 		E4DFD7041B7FBAA1005B328B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftMigration = 0700;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Tatiana Kornilova";
 				TargetAttributes = {
@@ -483,6 +484,7 @@
 				E4DFD7361B7FBAA2005B328B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E4DFD7371B7FBAA2005B328B /* Build configuration list for PBXNativeTarget "Calculator_new_9Tests" */ = {
 			isa = XCConfigurationList;
@@ -491,6 +493,7 @@
 				E4DFD7391B7FBAA2005B328B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E4DFD73A1B7FBAA2005B328B /* Build configuration list for PBXNativeTarget "Calculator_new_9UITests" */ = {
 			isa = XCConfigurationList;
@@ -499,6 +502,7 @@
 				E4DFD73C1B7FBAA2005B328B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
