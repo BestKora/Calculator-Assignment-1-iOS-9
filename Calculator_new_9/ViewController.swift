@@ -41,6 +41,7 @@ class ViewController: UIViewController
                 display.text = digit
                 userIsInTheMiddleOfTypingANumber = true
                 history.text = history.text!.rangeOfString("=") != nil ? String((history.text!).characters.dropLast()) :  history.text
+            
         }
     }
     
