@@ -17,49 +17,47 @@ class ViewController: UIViewController
             tochka.setTitle(decimalSeparator, forState: UIControlState.Normal)
         }
     }
-
+    
     let decimalSeparator =  NSNumberFormatter().decimalSeparator ?? "."
     
     var userIsInTheMiddleOfTypingANumber = false
-
+    
     @IBAction func appendDigit(sender: UIButton) {
         let digit = sender.currentTitle!
         if userIsInTheMiddleOfTypingANumber {
             
-             //----- Не пускаем избыточную точку ---------------
-            if (digit == decimalSeparator) && (display.text?.rangeOfString(decimalSeparator) != nil) { return }
-           
+            //----- Не пускаем избыточную точку ---------------
+            if (digit == decimalSeparator) && (display.text?.rangeOfString(decimalSeparator) != nil)
+            { return }
             //----- Уничтожаем лидирующие нули -----------------
             if (digit == "0") && ((display.text == "0") || (display.text == "-0")){ return }
             if (digit != decimalSeparator) && ((display.text == "0") || (display.text == "-0"))
-                                                                              { display.text = digit ; return }
+            { display.text = digit ; return }
             //--------------------------------------------------
             
             display.text = display.text! + digit
-            
         } else {
-                display.text = digit
-                userIsInTheMiddleOfTypingANumber = true
-                history.text = history.text!.rangeOfString("=") != nil ? String((history.text!).characters.dropLast()) :  history.text
+            display.text = digit
+            userIsInTheMiddleOfTypingANumber = true
         }
     }
     
     
     @IBAction func operate(sender: UIButton) {
+        
         if userIsInTheMiddleOfTypingANumber {
             enter()
         }
         if let operation = sender.currentTitle {
-            history.text = history.text!.rangeOfString("=") != nil ? String((history.text!).characters.dropLast()) :  history.text
-            history.text =  history.text! + " " + operation + "="
-
+            addHistory(operation + " =")
+            
             switch operation {
                 
             case "×": performOperation { $0 * $1 }
             case "÷": performOperation { $1 / $0 }
             case "+": performOperation { $0 + $1 }
             case "−": performOperation { $1 - $0 }
-            case "√": performOperation ( sqrt)
+            case "√": performOperation (sqrt)
             case "sin": performOperation (sin)
             case "cos": performOperation (cos)
             case "π": performOperation   { M_PI }
@@ -67,14 +65,14 @@ class ViewController: UIViewController
             default: break
                 
             }
-         }
+        }
     }
     
     @nonobjc func performOperation (operation: () -> Double ){
         displayValue = operation ()
         enter()
     }
- 
+    
     @nonobjc func performOperation (operation: Double -> Double ){
         if operandStack.count >= 1 {
             displayValue = operation (operandStack.removeLast())
@@ -83,7 +81,7 @@ class ViewController: UIViewController
             displayValue = nil
         }
     }
-
+    
     
     @nonobjc func performOperation (operation: (Double, Double) -> Double ){
         if operandStack.count >= 2 {
@@ -96,10 +94,10 @@ class ViewController: UIViewController
     
     
     var operandStack = Array <Double>()
- 
+    
     @IBAction func enter() {
         if userIsInTheMiddleOfTypingANumber {
-             history.text =  history.text! + " " + display.text!
+            addHistory(display.text!)
         }
         userIsInTheMiddleOfTypingANumber = false
         if let value = displayValue {
@@ -107,20 +105,21 @@ class ViewController: UIViewController
         }else {
             displayValue = nil
         }
-       print("operandStack = \(operandStack)", appendNewline: false)
-     }
+        print("operandStack = \(operandStack)")
+    }
     
     @IBAction func clearAll(sender: AnyObject) {
-          history.text =  " "
-          displayValue = 0
+        history.text =  " "
+        operandStack.removeAll()
+        displayValue = 0
     }
- 
+    
     @IBAction func backSpace(sender: AnyObject) {
         if userIsInTheMiddleOfTypingANumber {
             if (display.text!).characters.count > 1 {
                 display.text = String((display.text!).characters.dropLast())
             } else {
-                displayValue = nil
+                display.text = "0"
             }
         }
     }
@@ -140,18 +139,19 @@ class ViewController: UIViewController
     var displayValue: Double? {
         get {
             if let displayText = display.text {
-               return numberFormatter().numberFromString(displayText)?.doubleValue
+                return numberFormatter().numberFromString(displayText)?.doubleValue
             }
             return nil
         }
         set {
             if (newValue != nil) {
-               display.text = numberFormatter().stringFromNumber(newValue!)
+                // display.text = "\(newValue!)"
+                display.text = numberFormatter().stringFromNumber(newValue!)
             } else {
-                display.text = "Error "
+                display.text = " "
+                history.text =  history.text! + " Error"
             }
             userIsInTheMiddleOfTypingANumber = false
-
         }
     }
     
@@ -162,6 +162,21 @@ class ViewController: UIViewController
         numberFormatterLoc.notANumberSymbol = "Error"
         numberFormatterLoc.groupingSeparator = " "
         return numberFormatterLoc
+    }
+    
+    func addHistory(text: String){
+        // Удаляем знак =
+        history.text = history.text!.rangeOfString("=") != nil
+            ? (history.text!).stringByReplacingOccurrencesOfString("=", withString: "",
+                options: [], range: nil)
+            :  history.text
+        // Удаляем Error
+        history.text = history.text!.rangeOfString("Error") != nil
+            ? (history.text!).stringByReplacingOccurrencesOfString("Error", withString: "",
+                options: [], range: nil)
+            :  history.text
+        //Добавляем text
+        history.text =  history.text! + " " + text
     }
     
 }
