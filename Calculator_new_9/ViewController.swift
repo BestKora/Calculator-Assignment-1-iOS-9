@@ -165,16 +165,19 @@ class ViewController: UIViewController
     }
     
     func addHistory(text: String){
+        
         // Удаляем знак =
         history.text = history.text!.rangeOfString("=") != nil
             ? (history.text!).stringByReplacingOccurrencesOfString("=", withString: "",
                 options: [], range: nil)
             :  history.text
+        
         // Удаляем Error
         history.text = history.text!.rangeOfString("Error") != nil
             ? (history.text!).stringByReplacingOccurrencesOfString("Error", withString: "",
                 options: [], range: nil)
             :  history.text
+        
         //Добавляем text
         history.text =  history.text! + " " + text
     }
