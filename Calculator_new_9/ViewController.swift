@@ -2,8 +2,6 @@
 //  ViewController.swift
 //  CalculatorBrain
 //
-//  Created by Tatiana Kornilova on 2/5/15.
-//  Copyright (c) 2015 Tatiana Kornilova. All rights reserved.
 //
 
 import UIKit
@@ -42,7 +40,6 @@ class ViewController: UIViewController
         }
     }
     
-    
     @IBAction func operate(sender: UIButton) {
         
         if userIsInTheMiddleOfTypingANumber {
@@ -70,23 +67,22 @@ class ViewController: UIViewController
     
     @nonobjc func performOperation (operation: () -> Double ){
         displayValue = operation ()
-        enter()
+        addStack()
     }
     
     @nonobjc func performOperation (operation: Double -> Double ){
         if operandStack.count >= 1 {
             displayValue = operation (operandStack.removeLast())
-            enter()
+            addStack()
         } else {
             displayValue = nil
         }
     }
     
-    
     @nonobjc func performOperation (operation: (Double, Double) -> Double ){
         if operandStack.count >= 2 {
             displayValue = operation (operandStack.removeLast() , operandStack.removeLast())
-            enter()
+            addStack()
         } else {
             displayValue = nil
         }
@@ -96,17 +92,10 @@ class ViewController: UIViewController
     var operandStack = Array <Double>()
     
     @IBAction func enter() {
-        if userIsInTheMiddleOfTypingANumber {
-            addHistory(display.text!)
-        }
         userIsInTheMiddleOfTypingANumber = false
-        if let value = displayValue {
-            operandStack.append(value)
-        }else {
-            displayValue = nil
-        }
-        print("operandStack = \(operandStack)")
-    }
+        addHistory(display.text!)
+         addStack()
+     }
     
     @IBAction func clearAll(sender: AnyObject) {
         history.text =  " "
@@ -145,7 +134,6 @@ class ViewController: UIViewController
         }
         set {
             if (newValue != nil) {
-                // display.text = "\(newValue!)"
                 display.text = numberFormatter().stringFromNumber(newValue!)
             } else {
                 display.text = " "
@@ -182,5 +170,14 @@ class ViewController: UIViewController
         history.text =  history.text! + " " + text
     }
     
+     func addStack(){
+        if let value = displayValue {
+            operandStack.append(value)
+            
+        }else {
+            displayValue = nil
+        }
+        print("operandStack = \(operandStack)")
+    }
 }
 
