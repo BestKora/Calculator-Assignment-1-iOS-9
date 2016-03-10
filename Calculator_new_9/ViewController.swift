@@ -91,10 +91,21 @@ class ViewController: UIViewController
     
     var operandStack = Array <Double>()
     
+    func addStack(){
+        if let value = displayValue {
+            operandStack.append(value)
+            
+        } else {
+            displayValue = nil
+        }
+        print("operandStack = \(operandStack)")
+    }
+
+    
     @IBAction func enter() {
         userIsInTheMiddleOfTypingANumber = false
         addHistory(display.text!)
-         addStack()
+        addStack()
      }
     
     @IBAction func clearAll(sender: AnyObject) {
@@ -170,14 +181,5 @@ class ViewController: UIViewController
         history.text =  history.text! + " " + text
     }
     
-     func addStack(){
-        if let value = displayValue {
-            operandStack.append(value)
-            
-        }else {
-            displayValue = nil
-        }
-        print("operandStack = \(operandStack)")
-    }
 }
 
